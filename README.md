@@ -6,9 +6,9 @@ A social platform mobile app.
 
 ## Demo
 
-[![Demo Video](https://thumbnail-url.jpg)](https://drive.google.com/file/d/1qRWJa7v0LgwKLyprQk6BiqrMHqKc5PRs/view?usp=sharing)
+[![Demo Video](https://drive.google.com/file/d/188mWVKj5Lyvx-WqHnj9DUliu0P2O2Rlq/view?usp=drivesdk)](https://drive.google.com/file/d/1qRWJa7v0LgwKLyprQk6BiqrMHqKc5PRs/view?usp=sharing)
 
-## Demo
+## Login
 
 Login credentials: 
 username: mor_2314
