@@ -5,6 +5,7 @@ class AppColor{
   static const darkGrey =  Color(0xFF393939);
   static const primaryHighContrast =  Color(0xFF755DC1);
   static const primaryDark =  Color(0xFF837E93);
+  static const bg =  Color(0xFFF4F4F4);
   static const grey500 = Color(0xff667085);
   static const grey300 = Color(0xffD0D5DD);
   static const grey200 = Color(0xffEAECF0);

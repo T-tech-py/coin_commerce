@@ -9,7 +9,7 @@ class AppButton extends StatelessWidget {
   const AppButton({super.key,
     required this.text,
     this.color, this.width,
-    required this.onTap,  this.addBorder =false, this.isInactive = true,
+    required this.onTap,  this.addBorder =false, this.isInactive = false,
     this.suffix, this.preffix, this.backgroundColor, this.border});
   final String text;
   final double? width;
@@ -30,22 +30,13 @@ class AppButton extends StatelessWidget {
         height: 50,
         width:width,
         alignment: Alignment.center,
-        decoration:addBorder?
+        decoration:
             BoxDecoration(
-              color:border != null? null:backgroundColor?? AppColor.blueFF,
-              borderRadius: BorderRadius.circular(6),
-              border: border != null?Border.all(color: AppColor.lightBlue): null
-            )
-            : BoxDecoration(
-          gradient: AppColor.gradientButton,
-          // color:isInactive?
-          //     AppColor.buttonInactiveColor
-          //     :!addBorder? AppColor.buttonTextColor:
-          //   AppColor.transparent,
-          borderRadius: BorderRadius.circular(6),
-          border:addBorder? Border.all(color: AppColor.transparent):
-           Border.all(color:AppColor.transparent)
-        ),
+              color:border != null? null:backgroundColor?? AppColor.primaryHighContrast,
+              borderRadius: BorderRadius.circular(100),
+             // border: border != null?Border.all(color: AppColor.lightBlue): null
+            ),
+
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,8 +47,9 @@ class AppButton extends StatelessWidget {
             8.width,
             Text(
               text,
-              style: theme.textTheme.bodyLarge!.copyWith(
-                fontSize: 14,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
                 color:color?? AppColor.white,
               ),
             ),

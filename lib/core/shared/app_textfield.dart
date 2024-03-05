@@ -74,7 +74,7 @@ class _AppTextFieldState extends State<AppTextField> {
     ThemeData theme = Theme.of(context);
     InputBorder border = OutlineInputBorder(
       borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-      borderSide:  const BorderSide(color: AppColor.grey300,
+      borderSide:  const BorderSide(color: AppColor.transparent,
       width: 1),
     );
     return Column(
@@ -121,11 +121,12 @@ class _AppTextFieldState extends State<AppTextField> {
             widget.textFieldType == TextFieldType.password ? _hideText : false,
             maxLines: widget.maxLines,
             decoration: InputDecoration(
+
               hintText: widget.hintText,
               hintStyle: theme.textTheme.bodyMedium!.copyWith(
                 color: widget.hitTextCollor??AppColor.grey4,
                 fontWeight: FontWeight.w400,
-                fontSize: 16,
+                fontSize: 12,
               ),
               labelText: widget.labelText,
               border: widget.border??border,
@@ -145,6 +146,10 @@ class _AppTextFieldState extends State<AppTextField> {
              // prefix: widget.prefixIcon,
               suffixIcon: _suffix,
               prefixIcon: _preffix,
+              prefixIconConstraints: const BoxConstraints(
+                maxWidth: 24,
+              ),
+              suffixIconConstraints: const BoxConstraints(maxWidth: 40)
             ),
             validator: widget.validator,
             onChanged: widget.onChanged,

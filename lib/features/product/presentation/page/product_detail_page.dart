@@ -1,8 +1,10 @@
 import 'package:coin_commerce/core/shared/app_back_button.dart';
 import 'package:coin_commerce/core/shared/custom_image_widget.dart';
 import 'package:coin_commerce/core/ui/app_enums.dart';
+import 'package:coin_commerce/core/utils/app_navigator.dart';
 import 'package:coin_commerce/core/utils/colors.dart';
 import 'package:coin_commerce/core/utils/extensions.dart';
+import 'package:coin_commerce/features/product/presentation/page/cart_page.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -86,19 +88,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
             30.height,
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text( "\$500",
-                style: TextStyle(
-                  fontSize: 16,fontWeight: FontWeight.w600,
-                  color: AppColor.white,
-
-                ),),
-                Text( "Add to Cart",),
-
-              ],
-            ),
+            AddToCartButton(price: '500', onTap: () {
+              pushToNextScreen(
+                  child: const CartPage(),
+                  name: CartPage.routeName);
+            },),
           ],
         ),
       ),
@@ -117,6 +111,8 @@ class OptionCard extends StatefulWidget {
 
 class _OptionCardState extends State<OptionCard> {
   int quantity = 1;
+  final sizes = ['S','M','L','XL','XXL','2XL'];
+  ValueNotifier<String> productSize = ValueNotifier('S');
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -176,9 +172,9 @@ class _OptionCardState extends State<OptionCard> {
           if (widget.type == AppProductType.size)
             Row(
               children: [
-                const Text(
-                  "S",
-                  style: TextStyle(
+                 Text(
+                  productSize.value,
+                  style:const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 25.width,
@@ -186,14 +182,136 @@ class _OptionCardState extends State<OptionCard> {
                   imagePath: "assets/svgs/arrow_down.svg",
                   onTap: () {
                     showModalBottomSheet(
-                        context: context, builder: (_) => Column());
+                      backgroundColor: AppColor.transparent,
+                        isScrollControlled: true,
+                        isDismissible: false,
+                        context: context, builder: (_) => Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 14),
+                        decoration: const BoxDecoration(
+                          color: AppColor.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          )
+                        ),
+                        child: SizedBox(
+                          height: 400,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Spacer(),
+                                  const Text(
+                                    "Size",
+                                    style: TextStyle(
+                                        fontSize: 24, fontWeight: FontWeight.w600),
+                                  ),
+                                  const Spacer(),
+                                  IconButton(onPressed: (){
+                                    setState(() {
+
+                                    });
+                                    pop();},
+                                      icon: const Icon(Icons.close))
+                                ],
+                              ),
+                              27.height,
+                              ValueListenableBuilder(
+                                  valueListenable: productSize,
+                                  builder: (context,value,_){
+                                return Expanded(
+                                  child: ListView.separated(
+                                      itemBuilder: (context,index){
+                                        return  SizeCard(size: sizes[index],
+                                          selected: sizes[index] == value,
+                                          onTap: () {
+                                          productSize.value = sizes[index];
+                                          },);
+                                      },
+                                      separatorBuilder: (context,index)=>15.height,
+                                      itemCount: sizes.length),
+                                );
+                                  })
+                            ],
+                          ),
+                        )));
                   },
                 )
               ],
             ),
-          if (widget.type == AppProductType.color) SizedBox()
+          if (widget.type == AppProductType.color) const SizedBox()
         ],
       ),
     );
   }
 }
+
+class AddToCartButton extends StatelessWidget {
+  const AddToCartButton({super.key, required this.price, required this.onTap});
+  final String price;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: AppColor.primaryHighContrast,
+        ),
+        child:  Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text( "\$$price",
+              style: const TextStyle(
+                fontSize: 16,fontWeight: FontWeight.w600,
+                color: AppColor.white,
+
+              ),),
+            const Text( "Add to Cart",
+                style: TextStyle(
+                  fontSize: 16,fontWeight: FontWeight.w500,
+                  color: AppColor.white,
+                )),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SizeCard extends StatelessWidget {
+  const SizeCard({super.key, required this.size, required this.selected, required this.onTap});
+  final String size;
+  final bool selected;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 18,horizontal: 24),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: selected?AppColor.primaryHighContrast:AppColor.bg,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              size,
+              style: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500,
+              color: selected?AppColor.white:AppColor.black),
+            ),
+            if(selected)
+            const Icon(Icons.check,color: AppColor.white,),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
