@@ -1,6 +1,6 @@
 
 
-import '../../../../core/domain/entities/session_user.dart';
+import '../../../../../core/domain/entities/session_user.dart';
 
 abstract class AuthStore {
   Future<SessionUser?> retrieveCurrentUser();

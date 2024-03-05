@@ -4,6 +4,7 @@ import 'package:coin_commerce/core/utils/app_navigator.dart';
 import 'package:coin_commerce/core/utils/colors.dart';
 import 'package:coin_commerce/core/utils/extensions.dart';
 import 'package:coin_commerce/features/product/presentation/page/homepage.dart';
+import 'package:coin_commerce/features/product/presentation/page/landing_page.dart';
 import 'package:flutter/material.dart';
 
 class OrderPlacedPage extends StatefulWidget {
@@ -51,7 +52,7 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
                   fontWeight: FontWeight.w400,
                 ),),
                 
-                AppButton(text: 'Done', onTap: (){popUntil(name: HomePage.routeName);}),
+                AppButton(text: 'Done', onTap: (){popUntil(name: BaseView.routeName);}),
 
               ],
             ),

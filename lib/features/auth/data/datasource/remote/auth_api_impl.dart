@@ -4,10 +4,10 @@ import 'package:coin_commerce/core/ui/app_enums.dart';
 import 'package:coin_commerce/features/auth/domain/usecase/signup_use_case.dart';
 import 'package:logger/logger.dart';
 
-import '../../../../core/data/model/api_exception.dart';
-import '../../../../core/domain/entities/session_user.dart';
-import '../../domain/entity/login_request.dart';
-import '../model/login_response_model.dart';
+import '../../../../../core/data/model/api_exception.dart';
+import '../../../../../core/domain/entities/session_user.dart';
+import '../../../domain/entity/login_request.dart';
+import '../../model/login_response_model.dart';
 import 'auth_api.dart';
 
 class AuthApiImpl extends AuthApi {

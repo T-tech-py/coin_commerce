@@ -80,9 +80,9 @@ class AppToast {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Color.lerp(
-           AppColor.primaryColor,
+           AppColor.orange,
            AppColor.white,
-          0.85,
+         0.1,
         ),
         margin: const EdgeInsets.symmetric(
           horizontal: 16,

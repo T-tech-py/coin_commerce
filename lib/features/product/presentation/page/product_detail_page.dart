@@ -1,15 +1,22 @@
+import 'package:coin_commerce/core/domain/entities/cart_hander.dart';
+import 'package:coin_commerce/core/domain/entities/user_favourite.dart';
 import 'package:coin_commerce/core/shared/app_back_button.dart';
 import 'package:coin_commerce/core/shared/custom_image_widget.dart';
 import 'package:coin_commerce/core/ui/app_enums.dart';
 import 'package:coin_commerce/core/utils/app_navigator.dart';
 import 'package:coin_commerce/core/utils/colors.dart';
 import 'package:coin_commerce/core/utils/extensions.dart';
+import 'package:coin_commerce/features/product/domain/entity/product_entity.dart';
 import 'package:coin_commerce/features/product/presentation/page/cart_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../core/utils/app_toast.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({super.key});
+  const ProductDetailPage({super.key, required this.productEntity});
   static const routeName = '/productDetailPage';
+  final ProductEntity productEntity;
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
 }
@@ -23,31 +30,46 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         child: ListView(
           padding: const EdgeInsets.all(26),
           children: [
-            const Row(
-              children: [
-                AppBackButton(),
-                Spacer(),
-                CustomImageWidget(imagePath: "assets/svgs/heart_fill.svg"),
-              ],
+            Consumer<UserFavourite>(
+              builder: (context,model,_) {
+                return  Row(
+                  children: [
+                    const AppBackButton(),
+                    const Spacer(),
+                    CustomImageWidget(
+                        onTap: (){
+                          model.checkAndAddProduct(widget.productEntity);
+                          if( UserFavourite().isLiked){
+                            AppToast.showSuccessToast(context: context,
+                                text: "Added to Favourite");
+                            return;
+                          }
+                          AppToast.showWarningToast(context: context,
+                              text: "Removed from Favourite");
+                        },
+                        imagePath:model.isLiked?
+                    "assets/svgs/love.svg":"assets/svgs/heart_fill.svg"),
+                  ],
+                );
+              }
             ),
             24.height,
-            const CustomImageWidget(
-              imagePath:
-                  "https://www.realsimple.com/thmb/vDQYdFGqp9s_Gvr4wyCdFh0O8Ag=/4000x2667/filters:no_upscale()/how-to-clean-microfiber-cloth-GettyImages-1314720631-dfb583e54f9e40dea2fea26b6dfaf26f.jpg",
-              width: double.infinity,
+             CustomImageWidget(
+              imagePath:widget.productEntity.image??'',
+                width: double.infinity,
               height: 245,
             ),
             24.height,
-            const Text(
-              "Men's Harrington Jacket",
-              style: TextStyle(
+             Text(
+              widget.productEntity.title??"N/A",
+              style:const TextStyle(
                 fontSize: 18,
               ),
             ),
             8.height,
-            const Text(
-              "\$500",
-              style: TextStyle(
+             Text(
+              "\$${widget.productEntity.price}",
+              style:const TextStyle(
                   fontSize: 16,
                   color: AppColor.primaryHighContrast,
                   fontWeight: FontWeight.w600),
@@ -65,8 +87,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             15.height,
              Text(
-              "Built for life and made to last, this full-zip corduroy jacket is part of our Nike Life collection. The spacious fit gives you plenty of room to layer underneath, while the soft corduroy keeps it casual and timeless.",
-              style: TextStyle(
+             widget.productEntity.description??"",
+                 style: TextStyle(
                 fontSize: 12,
                 color: AppColor.black.withOpacity(0.5) ,
               ),
@@ -79,16 +101,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
             10.height,
-            const Text(
-              "4.5 Ratings",
-              style: TextStyle(
+             Text(
+              "${widget.productEntity.rating?.rate} Ratings",
+              style: const TextStyle(
                 fontSize: 18,
                 color: AppColor.black ,
                   fontWeight: FontWeight.w500
               ),
             ),
             30.height,
-            AddToCartButton(price: '500', onTap: () {
+            AddToCartButton(price: '${widget.productEntity.price}', onTap: () {
+              CartHandler().addProduct(widget.productEntity);
               pushToNextScreen(
                   child: const CartPage(),
                   name: CartPage.routeName);

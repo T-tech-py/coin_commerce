@@ -1,8 +1,11 @@
+import 'package:coin_commerce/core/domain/entities/user_favourite.dart';
 import 'package:coin_commerce/core/shared/app_back_button.dart';
 import 'package:coin_commerce/core/shared/custom_image_widget.dart';
+import 'package:coin_commerce/core/ui/empty_state.dart';
 import 'package:coin_commerce/core/utils/extensions.dart';
 import 'package:coin_commerce/features/product/presentation/page/product_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/utils/app_navigator.dart';
 
@@ -27,7 +30,7 @@ class _FavoritePageState extends State<FavoritePage> {
                 children: [
                   AppBackButton(),
                   Spacer(),
-                  Text("My Favourites (12)",
+                  Text("My Favourites",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -37,51 +40,61 @@ class _FavoritePageState extends State<FavoritePage> {
               ),
             ),
             Expanded(
-              child: GridView.builder(
-                //  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      mainAxisExtent: 300,
-                      mainAxisSpacing: 10),
-                  itemBuilder: (context,index){
-                    return Stack(
-                      children: [
-                        InkWell(
-                          onTap:(){
-                            pushToNextScreen(
-                                child: const ProductDetailPage(),
-                                name: ProductDetailPage.routeName);
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const CustomImageWidget(
-                                imagePath:"https://www.realsimple.com/thmb/vDQYdFGqp9s_Gvr4wyCdFh0O8Ag=/4000x2667/filters:no_upscale()/how-to-clean-microfiber-cloth-GettyImages-1314720631-dfb583e54f9e40dea2fea26b6dfaf26f.jpg",
-                                height: 200,
-                                width: double.infinity,
-                                fit: BoxFit.fill,),
-                              10.height,
-                              const Text("Products",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),),
-                              //8.height,
-                              const Text("\$500",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),),
-                            ],
-                          ),
-                        ),
-                        const Positioned(
-                            right: 8,
-                            top: 8,
-                            child: CustomImageWidget(
-                              imagePath: "assets/svgs/love.svg",))
-                      ],
-                    );
-                  }),
+              child: Consumer<UserFavourite>(
+                builder: (context,model,_) {
+                  return model.favourites.isEmpty?
+                      const EmptyState(image: "assets/images/cart.png",
+                          text: "You are yet to add an Item to your favorite list")
+                      :GridView.builder(
+                    //  physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 26),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          mainAxisExtent: 300,
+                          mainAxisSpacing: 10),
+                      itemCount: model.favourites.length,
+                      itemBuilder: (context,index){
+                        return Stack(
+                          children: [
+                            InkWell(
+                              onTap:(){
+                                pushToNextScreen(
+                                    child:  ProductDetailPage(productEntity: model.favourites[index],),
+                                    name: ProductDetailPage.routeName);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                   CustomImageWidget(
+                                    imagePath:model.favourites[index].image??"",
+                                    height: 200,
+                                    width: double.infinity,
+                                    fit: BoxFit.fill,),
+                                  10.height,
+                                   Text(model.favourites[index].title??"",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),),
+                                  //8.height,
+                                   Text("\$${model.favourites[index].price}",
+                                    style:const TextStyle(
+                                      fontSize: 16,
+                                    ),),
+                                ],
+                              ),
+                            ),
+                            const Positioned(
+                                right: 8,
+                                top: 8,
+                                child: CustomImageWidget(
+                                  imagePath: "assets/svgs/love.svg",))
+                          ],
+                        );
+                      });
+                }
+              ),
             ),
           ],
         ) ,

@@ -3,7 +3,7 @@ class CategoryEntity{
 
   CategoryEntity({required this.name});
 
-  factory CategoryEntity.fromJson(Map<String,dynamic> json){
-    return CategoryEntity(name: json['name']??'');
+  factory CategoryEntity.fromJson(String json){
+    return CategoryEntity(name: json);
   }
 }

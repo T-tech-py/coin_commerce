@@ -1,27 +1,27 @@
-import 'package:coin_commerce/features/auth/domain/usecase/signup_use_case.dart';
-import 'package:either_dart/src/either.dart';import 'package:logger/logger.dart';
+import 'package:coin_commerce/core/domain/entities/category.dart';
+import 'package:either_dart/src/either.dart';
+import 'package:logger/logger.dart';
 
 import '../../../../core/data/model/api_exception.dart';
 import '../../../../core/domain/entities/failure_result.dart';
-import '../../domain/entity/login_request.dart';
-import '../../domain/entity/login_response.dart';
-import '../../domain/repository/auth_repository.dart';
-import '../datasource/remote/auth_api.dart';
+import '../../domain/entity/product_entity.dart';
+import '../../domain/repository/product_repository.dart';
+import '../datasource/remote/product_api.dart';
 
-class AuthRepositoryImpl extends AuthRepository{
-  AuthRepositoryImpl({
-    required AuthApi authApi,
+class ProductRepositoryImpl extends ProductRepository{
+  ProductRepositoryImpl({
+    required ProductApi authApi,
     Logger? logger,
   })  : _api = authApi,
         _logger = logger;
-  final AuthApi _api;
+  final ProductApi _api;
   final Logger? _logger;
 
   @override
-  Future<Either<FailureResult, bool>> login(LoginRequest data)async {
+  Future<Either<FailureResult, List<CategoryEntity>>> getCategory()async {
     try {
-      final response = await _api.login(data);
-      return Right(true);
+      final response = await _api.getCategory();
+      return Right(response);
     } on ApiException catch (ex) {
       return Left(
         FailureResult(
@@ -42,10 +42,10 @@ class AuthRepositoryImpl extends AuthRepository{
   }
 
   @override
-  Future<Either<FailureResult, bool>>
-  signup(SignupParams data) async{
+  Future<Either<FailureResult, List<ProductEntity>>>
+  getProducts(String id) async{
     try {
-      final response = await _api.signup(data);
+      final response = await _api.getProducts(id);
       return Right(response);
     } on ApiException catch (ex) {
       return Left(
