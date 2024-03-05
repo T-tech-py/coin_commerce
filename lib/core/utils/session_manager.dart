@@ -1,8 +1,8 @@
-import 'package:coin_commerce/features/auth/screens/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 
 import '../../features/auth/data/local/auth_store_impl.dart';
+import '../../features/auth/presentation/page/login_screen.dart';
 import '../data/datasourse/local/local_caching.dart';
 import '../domain/entities/session_user.dart';
 

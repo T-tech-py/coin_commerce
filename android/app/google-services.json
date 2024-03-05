@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "984085252707",
+    "project_id": "coin-commerce",
+    "storage_bucket": "coin-commerce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984085252707:android:efe7a717dd17d5ac24c656",
+        "android_client_info": {
+          "package_name": "com.example.coin_commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8UhTJuBdGEwgbOL0GQYuu-9ABKjES5ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

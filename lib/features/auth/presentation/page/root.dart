@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/utils/colors.dart';
-import '../../../core/utils/custom_bg.dart';
+import '../../../../core/utils/colors.dart';
+import '../../../../core/utils/custom_bg.dart';
 import 'login_screen.dart';
 import 'register_screen.dart';
 import 'verify_screen.dart';

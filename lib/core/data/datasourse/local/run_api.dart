@@ -143,10 +143,10 @@ class NetworkHandler{
       return json;
     }
     print(response.statusCode);
-    print(response.data['message'],);
+    print(response.data,);
 
       throw ApiException(
-        message: response.data['message'],
+        message: response.data,
       );
 
   }

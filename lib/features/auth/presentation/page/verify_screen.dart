@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
-import '../../../core/utils/colors.dart';
+import '../../../../core/utils/colors.dart';
 import '../widgets/otp_form.dart';
 
 class VerifyScreen extends StatefulWidget {

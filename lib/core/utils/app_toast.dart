@@ -111,7 +111,7 @@ class AppToast {
 }
 loadingDialog(BuildContext context) {
   return showAdaptiveDialog(
-    barrierColor: Colors.white.withOpacity(.5),
+    barrierColor: Colors.black.withOpacity(.5),
     context: context,
     builder: (context) => Material(
       color: Colors.transparent,
